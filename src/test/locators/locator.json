@@ -1,0 +1,55 @@
+[
+    {
+        "locator": {
+            "primary": {
+                "type": "xpath",
+                "value": "//a[@id='hero-cta']"
+            },
+            "fallbacks": [
+                {
+                    "type": "css",
+                    "value": "#hero-cta"
+                },
+                {
+                    "type": "xpath",
+                    "value": "//a[@data-testid='hero-cta']"
+                },
+                {
+                    "type": "xpath",
+                    "value": "//a[contains(text(),'Shop Now')]"
+                },
+                {
+                    "type": "text",
+                    "value": "Shop Now"
+                },
+                {
+                    "type": "xpath",
+                    "value": "//a[@href='/shop']"
+                }
+            ]
+        },
+        "metaData": {
+            "text": "Shop Now",
+            "attributes": {
+                "id": "hero-cta",
+                "class": "w-full sm:w-fit px-12 py-4 bg-brand-black text-white hover:bg-brand-black/90 font-bold rounded-full text-center text-base transition-colors",
+                "dataTestId": "hero-cta"
+            },
+            "hierarchy": {
+                "parent": "div.flex.flex-col.gap-6.md:gap-8.max-w-xl",
+                "grandParent": "section"
+            },
+            "siblings": {
+                "left": [
+                    "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style."
+                ],
+                "right": [
+                    "200+",
+                    "2,000+",
+                    "30,000+"
+                ]
+            }
+        }
+    },
+    
+]
