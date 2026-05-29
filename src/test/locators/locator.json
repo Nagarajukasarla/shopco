@@ -1,33 +1,32 @@
 [
     {
-        "locator": {
-            "primary": {
-                "type": "xpath",
-                "value": "//a[@id='hero-cta']"
-            },
-            "fallbacks": [
-                {
-                    "type": "css",
-                    "value": "#hero-cta"
-                },
-                {
-                    "type": "xpath",
-                    "value": "//a[@data-testid='hero-cta']"
-                },
-                {
-                    "type": "xpath",
-                    "value": "//a[contains(text(),'Shop Now')]"
-                },
-                {
-                    "type": "text",
-                    "value": "Shop Now"
-                },
-                {
-                    "type": "xpath",
-                    "value": "//a[@href='/shop']"
-                }
-            ]
+        "key": "home.hero.shop_now_button",
+        "primary": {
+            "type": "xpath",
+            "value": "//a[@id='hero-cta']"
         },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "#hero-cta"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[@data-testid='hero-cta']"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[contains(text(),'Shop Now')]"
+            },
+            {
+                "type": "text",
+                "value": "Shop Now"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[@href='/shop']"
+            }
+        ],
         "metaData": {
             "text": "Shop Now",
             "attributes": {
@@ -52,4 +51,341 @@
         }
     },
     
+    {
+        "key": "products.list",
+        "primary": {
+            "type": "xpath",
+            "value": "//div[@id='products-grid']"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "#products-grid"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[@data-testid='products-grid']"
+            },
+            {
+                "type": "xpath",
+                "value": "//main//div[contains(@class,'grid-cols-2') and contains(@class,'md:grid-cols-3')]"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[.//a[contains(@id,'product-card-1')]]"
+            }
+        ],
+        "metaData": {
+            "attributes": {
+                "id": "products-grid",
+                "class": "grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10",
+                "dataTestId": "products-grid"
+            },
+            "hierarchy": {
+                "parent": "main.flex-1.w-full",
+                "grandParent": "body"
+            },
+            "siblings": {
+                "left": [
+                    "All Products",
+                    "Showing 1-6 of 10 Products",
+                    "Filters",
+                    "Sort by:"
+                ],
+                "right": [
+                    "pagination-container",
+                    "Previous",
+                    "Next"
+                ]
+            }
+        }
+    },
+
+    {
+        "key": "products.list.first_product_item",
+        "primary": {
+            "type": "id",
+            "value": "product-card-1"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "a[data-testid='product-card-1']"
+            },
+            {
+                "type": "css",
+                "value": "#products-grid > a[href='/product/1']"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[@id='products-grid']//a[@data-testid='product-card-1']"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[@href='/product/1' and .//h3[text()='T-Shirt with Tape Details']]"
+            }
+        ],
+        "metadata": {
+            "tag": "a",
+            "text": "T-Shirt with Tape Details",
+            "attributes": {
+                "id": "product-card-1",
+                "data-testid": "product-card-1",
+                "href": "/product/1"
+            },
+            "parent": {
+                "tag": "div",
+                "id": "products-grid",
+                "data-testid": "products-grid"
+            },
+            "children": [
+                {
+                    "tag": "img",
+                    "data-testid": "product-image-1",
+                    "alt": "T-Shirt with Tape Details"
+                },
+                {
+                    "tag": "h3",
+                    "data-testid": "product-title-1",
+                    "text": "T-Shirt with Tape Details"
+                },
+                {
+                    "tag": "div",
+                    "data-testid": "product-rating-1"
+                },
+                {
+                    "tag": "div",
+                    "data-testid": "product-price-1"
+                }
+            ]
+        }
+    },
+    {
+        "key": "product.details.add_to_cart_button",
+        "primary": {
+            "type": "id",
+            "value": "add-to-cart-btn"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "button[data-testid='add-to-cart-btn']"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[@id='add-to-cart-btn']"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[normalize-space()='Add to Cart']"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[@data-testid='quantity-counter']/following-sibling::button[@data-testid='add-to-cart-btn']"
+            }
+        ],
+        "metadata": {
+            "tag": "button",
+            "text": "Add to Cart",
+            "attributes": {
+                "id": "add-to-cart-btn",
+                "data-testid": "add-to-cart-btn"
+            },
+            "parent": {
+                "tag": "div",
+                "class": "flex items-stretch gap-5 mt-2"
+            },
+            "siblings": [
+                {
+                    "tag": "div",
+                    "data-testid": "quantity-counter"
+                }
+            ],
+            "relatedElements": [
+                {
+                    "tag": "button",
+                    "id": "quantity-decrement",
+                    "data-testid": "quantity-decrement",
+                    "aria-label": "Decrease quantity"
+                },
+                {
+                    "tag": "button",
+                    "id": "quantity-increment",
+                    "data-testid": "quantity-increment",
+                    "aria-label": "Increase quantity"
+                },
+                {
+                    "tag": "span",
+                    "data-testid": "quantity-value",
+                    "text": "1"
+                }
+            ]
+        }
+    },
+    {
+        "key": "product.details.feedback_message",
+        "primary": {
+            "type": "id",
+            "value": "cart-feedback-message"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "div[data-testid='cart-feedback-message']"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[@id='cart-feedback-message']"
+            },
+            {
+                "type": "xpath",
+                "value": "//div[contains(text(),'Added 1 item(s) to cart successfully!')]"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[@id='add-to-cart-btn']/following::div[@data-testid='cart-feedback-message'][1]"
+            }
+        ],
+        "metadata": {
+            "tag": "div",
+            "text": "Added 1 item(s) to cart successfully!",
+            "attributes": {
+                "id": "cart-feedback-message",
+                "data-testid": "cart-feedback-message"
+            },
+            "parent": {
+                "tag": "div",
+                "class": "flex flex-col gap-5 md:gap-6"
+            },
+            "siblings": [
+                {
+                    "tag": "button",
+                    "id": "add-to-cart-btn",
+                    "data-testid": "add-to-cart-btn",
+                    "text": "Add to Cart"
+                },
+                {
+                    "tag": "div",
+                    "data-testid": "quantity-counter"
+                }
+            ],
+            "relatedElements": [
+                {
+                    "tag": "h1",
+                    "data-testid": "product-details-title",
+                    "text": "T-Shirt with Tape Details"
+                },
+                {
+                    "tag": "span",
+                    "data-testid": "quantity-value",
+                    "text": "1"
+                }
+            ]
+        }
+    },
+
+    {
+        "key": "navbar.cart_button_link",
+        "primary": {
+            "type": "id",
+            "value": "navbar-cart-link"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "a[data-testid='navbar-cart-link']"
+            },
+            {
+                "type": "css",
+                "value": "a[aria-label='View Cart']"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[@id='navbar-cart-link']"
+            },
+            {
+                "type": "xpath",
+                "value": "//a[@data-testid='navbar-cart-link']"
+            },
+            {
+                "type": "xpath",
+                "value": "//nav//a[contains(@href,'/cart')]"
+            }
+        ],
+        "metadata": {
+            "tag": "a",
+            "text": "35",
+            "attributes": {
+                "id": "navbar-cart-link",
+                "data-testid": "navbar-cart-link",
+                "href": "/cart",
+                "aria-label": "View Cart"
+            },
+            "parent": {
+                "tag": "div",
+                "class": "flex items-center gap-3.5 md:gap-4.5"
+            },
+            "children": [
+                {
+                    "tag": "svg"
+                },
+                {
+                    "tag": "span",
+                    "id": "cart-badge-count",
+                    "data-testid": "cart-badge-count"
+                }
+            ]
+        }
+    },
+
+    {
+        "key": "cart.order-summary.go_to_checkout",
+        "primary": {
+            "type": "id",
+            "value": "checkout-btn"
+        },
+        "fallbacks": [
+            {
+                "type": "css",
+                "value": "button[data-testid='checkout-btn']"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[@id='checkout-btn']"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[@data-testid='checkout-btn']"
+            },
+            {
+                "type": "xpath",
+                "value": "//aside[@id='order-summary-panel']//button[contains(text(),'Go to Checkout')]"
+            },
+            {
+                "type": "xpath",
+                "value": "//button[contains(normalize-space(),'Go to Checkout')]"
+            }
+        ],
+        "metadata": {
+            "tag": "button",
+            "text": "Go to Checkout",
+            "attributes": {
+                "id": "checkout-btn",
+                "data-testid": "checkout-btn",
+                "class": "w-full py-4 bg-brand-black text-white hover:bg-brand-black/90 font-bold rounded-full text-center text-sm transition-colors mt-2"
+            },
+            "parent": {
+                "tag": "aside",
+                "id": "order-summary-panel",
+                "data-testid": "order-summary-panel"
+            },
+            "siblings": [
+                {
+                    "tag": "form",
+                    "id": "promo-form",
+                    "data-testid": "promo-form"
+                }
+            ]
+        }
+    }
 ]
