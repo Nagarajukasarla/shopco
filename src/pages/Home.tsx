@@ -36,8 +36,8 @@ export const Home: React.FC = () => {
                             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
                         </p>
                         <Link
-                            id="hero-cta"
-                            data-testid="hero-cta"
+                            id="hero-vt-shop"
+                            data-testid="hero-vt-shop"
                             to="/shop"
                             className="w-full sm:w-fit px-12 py-4 bg-brand-black text-white hover:bg-brand-black/90 font-bold rounded-full text-center text-base transition-colors"
                         >
