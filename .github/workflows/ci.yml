@@ -58,3 +58,4 @@ jobs:
         tags: |
           nagarajukasarla/shopco:latest
           nagarajukasarla/shopco:${{ github.sha }}
+          
