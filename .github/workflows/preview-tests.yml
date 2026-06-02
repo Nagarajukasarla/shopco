@@ -1,0 +1,56 @@
+name: Preview E2E Tests
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  healer-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send test locators to Database
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: bash scripts/send-locators-to-db.sh
+
+      - name: Generate Preview URL
+        id: preview
+        run: |
+          PREVIEW_URL="https://deploy-preview-${{ github.event.pull_request.number }}--shopcoecommerce.netlify.app"
+
+          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+
+      - name: Wait for Preview Deployment
+        run: |
+          echo "Waiting for Netlify preview deployment..."
+
+          for i in {1..30}; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" "${{ steps.preview.outputs.preview_url }}")
+
+            if [ "$STATUS" = "200" ]; then
+              echo "Preview deployment is ready"
+              exit 0
+            fi
+
+            echo "Waiting..."
+            sleep 10
+          done
+
+          echo "Preview deployment failed to become ready"
+          exit 1
+
+      - name: Trigger Healer Tests
+        run: |
+          curl -X POST https://self-healer.onrender.com/run-tests \
+            -H "Content-Type: application/json" \
+            -d '{
+              "targetUrl":"${{ steps.preview.outputs.preview_url }}"
+            }'
