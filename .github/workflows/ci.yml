@@ -57,4 +57,4 @@ jobs:
         push: true
         tags: |
           nagarajukasarla/shopco:latest
-          nagarajukasarla/shopco:${{ github.sha }}
+          nagarajukasarla/shopco:${{ github.sha }}          
