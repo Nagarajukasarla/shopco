@@ -54,7 +54,7 @@ export const Profile: React.FC = () => {
           setAuthError('Registration failed. Try again.');
         }
       }
-    } catch (err) {
+    } catch {
       setAuthError('An error occurred during authentication.');
     } finally {
       setAuthLoading(false);
