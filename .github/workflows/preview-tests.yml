@@ -1,0 +1,163 @@
+name: Preview E2E Tests
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  healer-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      ###########################################################
+      # Checkout Repository
+      ###########################################################
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      ###########################################################
+      # Send Locators to Database
+      ###########################################################
+
+      - name: Send test locators to Database
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: bash scripts/send-locators-to-db.sh
+
+      ###########################################################
+      # Generate Netlify Preview URL
+      ###########################################################
+
+      - name: Generate Preview URL
+        id: preview
+        run: |
+          PREVIEW_URL="https://deploy-preview-${{ github.event.pull_request.number }}--shopcoecommerce.netlify.app"
+
+          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+
+      ###########################################################
+      # Wait for Preview Deployment
+      ###########################################################
+
+      - name: Wait for Preview Deployment
+        run: |
+          echo "Waiting for Netlify preview deployment..."
+
+          for i in {1..30}; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" "${{ steps.preview.outputs.preview_url }}")
+
+            if [ "$STATUS" = "200" ]; then
+              echo "Preview deployment is ready"
+              exit 0
+            fi
+
+            echo "Waiting..."
+            sleep 10
+          done
+
+          echo "Preview deployment failed to become ready"
+          exit 1
+
+      ###########################################################
+      # Login to Docker Hub
+      ###########################################################
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      ###########################################################
+      # Pull Self-Healer Docker Image
+      ###########################################################
+
+      - name: Pull Self-Healer Docker Image
+        run: |
+          docker pull nagarajukasarla/self-healer:latest
+
+      ###########################################################
+      # Start Self-Healer Container
+      ###########################################################
+
+      - name: Start Self-Healer Container
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: |
+          docker run -d \
+            --name self-healer \
+            -p 3000:3000 \
+            -e NODE_ENV=production \
+            -e DB_HOST=$DB_HOST \
+            -e DB_PORT=$DB_PORT \
+            -e DB_USER=$DB_USER \
+            -e DB_PASSWORD=$DB_PASSWORD \
+            -e DB_NAME=$DB_NAME \
+            nagarajukasarla/self-healer:latest
+
+      ###########################################################
+      # Wait for Self-Healer API
+      ###########################################################
+
+      - name: Wait for Self-Healer API
+        run: |
+          echo "Waiting for Self-Healer service..."
+
+          for i in {1..30}; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:3000/health)
+
+            if [ "$STATUS" = "200" ]; then
+              echo "Self-Healer service is ready"
+              exit 0
+            fi
+
+            echo "Waiting for Self-Healer..."
+            sleep 5
+          done
+
+          echo "Self-Healer failed to start"
+
+          docker logs self-healer
+
+          exit 1
+
+      ###########################################################
+      # Trigger Healer Tests
+      ###########################################################
+
+      - name: Trigger Healer Tests
+        run: |
+          curl -X POST http://localhost:3000/run-tests \
+            -H "Content-Type: application/json" \
+            -d '{
+              "targetUrl":"${{ steps.preview.outputs.preview_url }}"
+            }'
+
+      ###########################################################
+      # Print Container Logs
+      ###########################################################
+
+      - name: Print Self-Healer Logs
+        if: always()
+        run: |
+          docker logs self-healer
+
+      ###########################################################
+      # Stop and Remove Container
+      ###########################################################
+
+      - name: Cleanup Container
+        if: always()
+        run: |
+          docker stop self-healer || true
+          docker rm self-healer || true
