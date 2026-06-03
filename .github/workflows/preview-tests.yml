@@ -80,7 +80,7 @@ jobs:
 
       - name: Pull Self-Healer Docker Image
         run: |
-          docker pull nagarajukasarla/self-healer:latest
+          docker pull nagarajukasarla/healer-automator:latest
 
       ###########################################################
       # Start Self-Healer Container
@@ -103,7 +103,7 @@ jobs:
             -e DB_USER=$DB_USER \
             -e DB_PASSWORD=$DB_PASSWORD \
             -e DB_NAME=$DB_NAME \
-            nagarajukasarla/self-healer:latest
+            nagarajukasarla/healer-automator:latest
 
       ###########################################################
       # Wait for Self-Healer API
