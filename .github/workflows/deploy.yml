@@ -1,0 +1,13 @@
+name: Production Deploy
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  production-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Production deployment triggered
+        run: echo "Netlify automatically handles production deployment"
