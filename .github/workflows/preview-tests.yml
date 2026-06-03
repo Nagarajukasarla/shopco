@@ -111,22 +111,29 @@ jobs:
 
       - name: Wait for Self-Healer API
         run: |
-          echo "Waiting for Self-Healer service..."
+          echo "Waiting for container startup..."
+
+          sleep 15
 
           for i in {1..30}; do
-            STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:3000/health)
+
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" \
+              http://localhost:3000/health || true)
 
             if [ "$STATUS" = "200" ]; then
-              echo "Self-Healer service is ready"
+              echo "Self-Healer API is ready"
               exit 0
             fi
 
-            echo "Waiting for Self-Healer..."
+            echo "Attempt $i failed..."
+            docker logs self-healer || true
+
             sleep 5
           done
 
-          echo "Self-Healer failed to start"
+          echo "Container failed to become healthy"
 
+          docker ps -a
           docker logs self-healer
 
           exit 1
