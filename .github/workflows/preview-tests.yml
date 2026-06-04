@@ -93,6 +93,7 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
+          HEALER_AI_SERVICE_URL: ${{ secrets.HEALER_AI_SERVICE_URL }}
         run: |
           docker run -d \
             --name self-healer \
@@ -103,6 +104,7 @@ jobs:
             -e DB_USER=$DB_USER \
             -e DB_PASSWORD=$DB_PASSWORD \
             -e DB_NAME=$DB_NAME \
+            -e HEALER_AI_SERVICE_URL=$HEALER_AI_SERVICE_URL \
             nagarajukasarla/healer-automator:latest
 
       ###########################################################
