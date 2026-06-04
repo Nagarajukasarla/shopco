@@ -98,6 +98,8 @@ jobs:
             --name self-healer \
             -p 3000:3000 \
             -e NODE_ENV=production \
+            -e HEADLESS=true \
+            -e CI=true \
             -e DB_HOST=$DB_HOST \
             -e DB_PORT=$DB_PORT \
             -e DB_USER=$DB_USER \
