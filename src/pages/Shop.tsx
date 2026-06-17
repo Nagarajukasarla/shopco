@@ -443,8 +443,8 @@ export const Shop: React.FC = () => {
             </div>
           ) : (
             <div
-              id="products-grid"
-              data-testid="products-grid"
+              id="products-grid-cta"
+              data-testid="products-grid-cta"
               className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10"
             >
               {paginatedProducts.map((product) => (
