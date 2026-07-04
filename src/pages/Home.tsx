@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
                         </p>
                         <Link
                             id="hero-vt-shop"
-                            data-testid="hero-vt-shop"
+                            data-testid="hero-vta"
                             to="/shop"
                             className="w-full sm:w-fit px-12 py-4 bg-brand-black text-white hover:bg-brand-black/90 font-bold rounded-full text-center text-base transition-colors"
                         >
