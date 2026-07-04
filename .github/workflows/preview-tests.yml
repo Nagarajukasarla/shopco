@@ -21,6 +21,13 @@ jobs:
       # Send Locators to Database
       ###########################################################
 
+      - name: Debug DB variables
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+        run: |
+          echo "Length: ${#DB_HOST}"
+          printf '<%q>\n' "$DB_HOST"
+
       - name: Send test locators to Database
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
