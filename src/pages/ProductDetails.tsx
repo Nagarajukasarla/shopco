@@ -282,8 +282,8 @@ export const ProductDetails: React.FC = () => {
 
             {/* Add to Cart button */}
             <button
-              id="add-to-cart-btn"
-              data-testid="add-to-cart-btn"
+              id="cart-btn"
+              data-testid="cart-btn"
               onClick={handleAddToCart}
               className="flex-1 py-4 bg-brand-black text-white hover:bg-brand-black/90 font-bold rounded-full transition-colors text-center text-sm"
             >

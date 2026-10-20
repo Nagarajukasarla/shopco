@@ -5,28 +5,6 @@
             "type": "xpath",
             "value": "//a[@id='hero-cta']"
         },
-        "fallbacks": [
-            {
-                "type": "css",
-                "value": "#hero-cta"
-            },
-            {
-                "type": "xpath",
-                "value": "//a[@data-testid='hero-cta']"
-            },
-            {
-                "type": "xpath",
-                "value": "//a[contains(text(),'Shop Now')]"
-            },
-            {
-                "type": "text",
-                "value": "Shop Now"
-            },
-            {
-                "type": "xpath",
-                "value": "//a[@href='/shop']"
-            }
-        ],
         "metaData": {
             "text": "Shop Now",
             "attributes": {
